@@ -19,10 +19,6 @@ total_number_of_loans = len(loan_costs)
 # Print the number of loans from the list
 print(f"The total number of loans in the list: {total_number_of_loans}")
 
-# What is the total of all loans?
-# @TODO: Use the `sum` function to calculate the total of all loans in the list.
-# Print the total value of the loans
-# YOUR CODE HERE!
 
 #Calculate the total of loans in the list.
 total_value_of_loans = sum(loan_costs)
@@ -155,8 +151,8 @@ loans = [
     },
 ]
 
-# @TODO: Create an empty list called `inexpensive_loans`
-# YOUR CODE HERE!
+#Create an empty list called `inexpensive_loans`
+inexpensive_loans = []
 
 # @TODO: Loop through all the loans and append any that cost $500 or less to the `inexpensive_loans` list
 # YOUR CODE HERE!
