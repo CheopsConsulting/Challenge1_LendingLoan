@@ -32,12 +32,10 @@ average_loan_amount = calculate_average(total_value_of_loans,total_number_of_loa
 # Print the average loan amount of all loans from the list
 print(f"The average loan amount of loans in the list: ${average_loan_amount}")
 
-
 """
 Analyze the loan to determine the investment evaluation.
 Calculates a Present Value, or a "fair price" for what this loan would be worth using a minimum required return of 20% as the discount rate.
 """
-
 # Calculate the present value for the loan
 loan = {
     "loan_price": 500,
@@ -57,7 +55,7 @@ remaining_months = loan.get("remaining_months",0)
 print(f"The remaining months on the loan: {remaining_months} months")
 
 
-# Calulate present value from the specified valus od the parameters. If annual_discount_value/12  ios passed  returns  monthly based "fair value"
+# Calulate present value from the specified value od the parameters. If annual_discount_value/12  is passed  returns  monthly based "fair value"
 # if annual_discount_value is used the annual based present value is retunred.
 
 def calculate_present_value(future_value_parameter,remaining_months_parameter,discount_rate_parameter):
@@ -65,18 +63,22 @@ def calculate_present_value(future_value_parameter,remaining_months_parameter,di
     return present_value
 
 # Define gloabl varaible for the discount
-discount_rate = .20
+annual_discount_rate = .20
 
 # Adjust the discount rate to force the use the use of the **monthly** version of the present value formula.
-fair_value_discount_rate = discount_rate /12
+# fair_value_discount_rate = annual_discount_rate /12
 
-fair_value = calculate_present_value(future_value,remaining_months, fair_value_discount_rate)
+fair_value = calculate_present_value(future_value,remaining_months, (annual_discount_rate /12))
 
 # Determine if the present value represents the loan's fair value.
 print (f"The fair value of the loan is: ${fair_value:.2f}")
+
+# Check if presnet value represents the fair value
 if fair_value >= loan["loan_price"]:
+    # Present value of the loan is greater than or equal to the cost
     print(f"The loan fair value is worth at least the cost of the loan to buy it. ")
 else:
+    # Present value of the loan is less than or equal to the cost
     print("The loan is too expensive and not worth the price.")
     
 
@@ -89,15 +91,12 @@ new_loan = {
     "repayment_interval": "bullet",
     "future_value": 1000,
 }
-
-
 """
 # Call the previouly defined function for "calculate_present_value" passing in values from the remaining_months and future_value on the new_loan dictionary. 
 # Using the # global value for the present value give us a calulation on an annual based discount_rate
 """
 
-# Assign discount value to 20%
-annual_discount_rate = discount_rate
+# Annual_discount_rate is 20% - defined above
 
 # Calculate the present value of the new loan using calculate_present_value function defined above
 present_value = calculate_present_value(new_loan.get("future_value"),new_loan.get("remaining_months"),annual_discount_rate)
@@ -159,7 +158,8 @@ header = ["loan_price", "remaining_months", "repayment_interval", "future_value"
 output_path = Path("inexpensive_loans.csv")
 
 # Open a new CSV file.
-with open(output_path, 'w',newline = '') as csvfile:
+#NOTE "closedfd=True to ensure the file is closed properly"
+with open(output_path, 'w',newline = '', closefd=True) as csvfile:
      csv_writer = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
      # write the header row
@@ -167,4 +167,4 @@ with open(output_path, 'w',newline = '') as csvfile:
      # write the values in each row each row of loan.values()
      for loan in inexpensive_loans:
     # write the values from each loan to the csv file
-        csv_writer.writerow (list(loan.values()))
+        csv_writer.writerow (list(loan.values()))  
